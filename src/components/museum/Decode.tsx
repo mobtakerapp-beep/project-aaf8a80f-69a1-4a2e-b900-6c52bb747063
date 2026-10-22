@@ -6,7 +6,7 @@ export function Decode({ onNext }: { onNext: () => void }) {
   const [active, setActive] = useState(0);
   const [shake, setShake] = useState(false);
   const all = opened.every(Boolean);
-  const lock = locks[active];
+  const lock = locks[active] ?? locks[0]!;
 
   const answer = (i: number) => {
     if (i === lock.answer) {
