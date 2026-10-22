@@ -116,6 +116,7 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
 
             </div>
             <div className="mt-5"><Guide text={pageText} intro={page === 0 ? site.narratorGreeting : undefined} /></div>
+            </div>
           </article>
           <div className="mt-6 flex justify-between">
             <button className="btn-ghost" disabled={page === 0} onClick={() => setPage(page - 1)}>→ السابقة</button>
