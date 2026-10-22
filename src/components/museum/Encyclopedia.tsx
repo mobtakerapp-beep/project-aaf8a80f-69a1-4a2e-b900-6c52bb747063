@@ -20,16 +20,20 @@ function Book({ open, onClick }: { open: boolean; onClick: () => void }) {
       </mesh>
       <mesh position={[1, 0, -0.25]}>
         <boxGeometry args={[2.05, 2.85, 0.08]} />
-        <meshStandardMaterial color="#c25a3a" />
+        <meshStandardMaterial color="#064e3b" />
       </mesh>
       <group ref={cover}>
         <mesh position={[1, 0, 0.04]}>
           <boxGeometry args={[2.05, 2.85, 0.08]} />
-          <meshStandardMaterial color="#c25a3a" emissive="#e3b04b" emissiveIntensity={0.15} metalness={0.3} roughness={0.5} />
+          <meshStandardMaterial color="#064e3b" emissive="#e3b04b" emissiveIntensity={0.15} metalness={0.3} roughness={0.5} />
         </mesh>
         <mesh position={[1, 0, 0.09]}>
           <ringGeometry args={[0.45, 0.55, 8]} />
-          <meshStandardMaterial color="#e3b04b" emissive="#e3b04b" emissiveIntensity={1.2} />
+          <meshStandardMaterial color="#e3b04b" emissive="#e3b04b" emissiveIntensity={0.7} metalness={0.7} roughness={0.25} />
+        </mesh>
+        <mesh position={[1, 0, 0.095]}>
+          <circleGeometry args={[0.36, 32]} />
+          <meshStandardMaterial color="#0b3b2e" metalness={0.35} roughness={0.5} />
         </mesh>
       </group>
       <pointLight position={[1, 0, 1.5]} color="#e3b04b" intensity={5} distance={6} />
@@ -39,9 +43,9 @@ function Book({ open, onClick }: { open: boolean; onClick: () => void }) {
 
 function Guide({ text, intro }: { text: string; intro?: string }) {
   return (
-    <div className="flex items-end gap-3">
-      <OptionalImage src="/images/characters/grandfather.png" alt="الجد الراوي العُماني" className="h-32 w-24 shrink-0 object-contain" />
-      <div className="relative rounded-2xl rounded-be-none border bg-muted p-3 text-sm leading-relaxed">
+    <div className="flex items-end gap-3 rounded-2xl border border-amber-500/30 bg-gradient-to-l from-emerald-950/10 via-card to-amber-500/10 p-3 shadow-md">
+      <OptionalImage src="/images/characters/grandfather.png" alt="الجد الراوي العُماني" className="h-36 w-28 shrink-0 object-contain drop-shadow-md" />
+      <div className="relative flex-1 rounded-2xl rounded-be-none border border-amber-500/30 bg-card p-4 text-sm leading-relaxed shadow-sm">
         {intro && <p className="mb-2 font-display text-primary">{intro}</p>}
         <p>{text}</p>
         <div className="mt-2 flex gap-3">
@@ -70,8 +74,13 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
   if (!p) return null;
 
   return (
-    <section className="flex h-full w-full flex-col overflow-y-auto" aria-label="الموسوعة العُمانية الذكية">
-      <div className={`relative w-full shrink-0 transition-all duration-700 ${open ? "h-40" : "h-[60vh]"}`}>
+    <section className="flex h-full w-full flex-col overflow-y-auto bg-gradient-to-b from-emerald-950/[0.04] via-background to-amber-500/[0.05]" aria-label="الموسوعة العُمانية الذكية">
+      <div className={`relative w-full shrink-0 overflow-hidden transition-all duration-700 ${open ? "h-40" : "h-[60vh]"}`}>
+        <div className="pointer-events-none absolute inset-x-6 top-4 z-10 rounded-2xl border border-amber-500/30 bg-emerald-950/90 px-4 py-3 text-center text-amber-100 shadow-lg">
+          <p className="font-display text-xs tracking-widest text-amber-300">حكايات من أرض اللبان</p>
+          <h2 className="mt-1 font-display text-xl sm:text-2xl">شيفرة الهبوت</h2>
+          <p className="mt-1 text-xs text-emerald-100/90">ذاكرة ظفار الرقمية</p>
+        </div>
         {ready && (
           <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 45 }}>
             <ambientLight intensity={0.5} />
@@ -82,7 +91,7 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
         {!open && (
           <div className="absolute inset-x-0 bottom-4 text-center">
             <h2 className="font-display text-2xl text-glow">الموسوعة العُمانية الذكية</h2>
-            <button className="btn-gold mt-3" onClick={() => setOpen(true)}>افتح الكتاب</button>
+            <button className="btn-gold mt-3 shadow-lg" onClick={() => setOpen(true)}>✦ افتح الكتاب واكتشف الحكاية ✦</button>
           </div>
         )}
       </div>
@@ -96,8 +105,9 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
               </button>
             ))}
           </div>
-          <article role="tabpanel" className="rounded-2xl border bg-card p-5 glow-gold">
-            <h3 className="font-display text-2xl text-primary">{p.title}</h3>
+          <article role="tabpanel" className="overflow-hidden rounded-3xl border border-amber-500/25 bg-card/95 p-4 shadow-xl sm:p-6">
+            <div className="mb-4 h-1.5 w-24 rounded-full bg-gradient-to-l from-amber-300 via-amber-600 to-emerald-800" />
+            <h3 className="font-display text-2xl text-primary sm:text-3xl">{p.title}</h3>
             <p className="mt-3 leading-loose">{p.text}</p>
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               {p.image ? <img src={p.image} alt={p.imageCaption} className="aspect-video w-full rounded-xl object-cover" /> : (
