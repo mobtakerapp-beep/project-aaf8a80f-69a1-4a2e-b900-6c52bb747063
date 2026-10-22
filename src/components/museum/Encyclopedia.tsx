@@ -43,14 +43,18 @@ function Book({ open, onClick }: { open: boolean; onClick: () => void }) {
 
 function Guide({ text, intro }: { text: string; intro?: string }) {
   return (
-    <div className="flex items-end gap-3 rounded-2xl border border-amber-500/30 bg-gradient-to-l from-emerald-950/10 via-card to-amber-500/10 p-3 shadow-md">
-      <OptionalImage src="/images/characters/grandfather.png" alt="الجد الراوي العُماني" className="h-36 w-28 shrink-0 object-contain drop-shadow-md" />
-      <div className="relative flex-1 rounded-2xl rounded-be-none border border-amber-500/30 bg-card p-4 text-sm leading-relaxed shadow-sm">
-        {intro && <p className="mb-2 font-display text-primary">{intro}</p>}
+    <div className="relative flex flex-col gap-3 overflow-hidden rounded-2xl border border-amber-500/40 bg-gradient-to-br from-[#062f28] via-[#0b4b3c] to-[#071f1b] p-3 shadow-lg sm:flex-row sm:items-end sm:p-4">
+      <div className="relative mx-auto flex h-44 w-36 shrink-0 items-end justify-center rounded-xl border border-amber-300/30 bg-gradient-to-b from-amber-100/10 to-transparent sm:mx-0 sm:h-48 sm:w-40">
+        <OptionalImage src="/images/characters/grandfather.png" alt="المرشد التراثي العُماني" className="h-full w-full object-contain drop-shadow-[0_5px_12px_rgba(0,0,0,0.35)]" />
+        <span className="absolute bottom-2 rounded-full border border-amber-300/50 bg-emerald-950/90 px-3 py-1 text-xs text-amber-100">الراوي العُماني</span>
+      </div>
+      <div className="relative flex-1 rounded-2xl border border-amber-300/30 bg-[#fffaf0] p-4 text-sm leading-loose text-[#26382f] shadow-inner">
+        {intro && <p className="mb-2 font-display font-bold text-emerald-900">{intro}</p>}
         <p>{text}</p>
-        <div className="mt-2 flex gap-3">
-          <button className="text-xs text-primary underline" onClick={() => speak(text)}>🔊 استمع</button>
-          <button className="text-xs text-muted-foreground underline" onClick={stopSpeech}>⏸ إيقاف</button>
+        <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-amber-900/15 pt-3">
+          <button className="rounded-full bg-emerald-900 px-4 py-2 text-xs font-semibold text-amber-50 shadow hover:bg-emerald-800" onClick={() => speak(text)}>🔊 استمع للحكاية</button>
+          <button className="rounded-full border border-emerald-900/25 px-4 py-2 text-xs text-emerald-950 hover:bg-emerald-900/5" onClick={stopSpeech}>⏹ إيقاف الصوت</button>
+          <span className="text-[11px] text-emerald-950/60">صوت عربي حسب الأصوات المتاحة على جهازك</span>
         </div>
       </div>
     </div>
@@ -116,7 +120,6 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
 
             </div>
             <div className="mt-5"><Guide text={pageText} intro={page === 0 ? site.narratorGreeting : undefined} /></div>
-            </div>
           </article>
           <div className="mt-6 flex justify-between">
             <button className="btn-ghost" disabled={page === 0} onClick={() => setPage(page - 1)}>→ السابقة</button>
