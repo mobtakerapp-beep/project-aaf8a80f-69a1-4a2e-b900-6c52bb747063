@@ -43,35 +43,13 @@ function Book({ open, onClick }: { open: boolean; onClick: () => void }) {
 
 function Guide({ text, intro }: { text: string; intro?: string }) {
   return (
-    <div className="relative flex flex-col gap-3 overflow-hidden rounded-2xl border border-amber-500/40 bg-gradient-to-br from-[#062f28] via-[#0b4b3c] to-[#071f1b] p-3 shadow-lg sm:flex-row sm:items-end sm:p-4">
-      <div className="relative mx-auto flex h-44 w-36 shrink-0 items-end justify-center rounded-xl border border-amber-300/30 bg-gradient-to-b from-amber-100/10 to-transparent sm:mx-0 sm:h-48 sm:w-40">
-        <div className="flex h-full w-full flex-col items-center justify-center text-center" role="img" aria-label="رسم رمزي للمرشد العُماني">
-          <svg viewBox="0 0 120 150" className="h-36 w-28 drop-shadow-lg" aria-hidden="true">
-            <ellipse cx="60" cy="140" rx="35" ry="6" fill="#031d18" opacity=".45" />
-            <path d="M25 142 Q28 92 45 83 L75 83 Q92 92 95 142Z" fill="#f8f4e9" stroke="#d6b66d" strokeWidth="2"/>
-            <path d="M48 86 L60 105 L72 86" fill="#e8ddc8" />
-            <rect x="49" y="65" width="22" height="25" rx="8" fill="#a96f4d"/>
-            <ellipse cx="60" cy="48" rx="25" ry="30" fill="#b97c58"/>
-            <path d="M35 43 Q28 17 51 13 Q78 4 85 31 L81 43 Q72 28 60 30 Q46 28 35 43" fill="#fff9e9" stroke="#d6b66d" strokeWidth="2"/>
-            <path d="M35 44 Q60 54 85 42 L82 51 Q60 62 38 52Z" fill="#b33c36"/>
-            <path d="M42 51 Q60 57 78 50" fill="none" stroke="#d6b66d" strokeWidth="2"/>
-            <circle cx="51" cy="49" r="2" fill="#2b211b"/><circle cx="69" cy="49" r="2" fill="#2b211b"/>
-            <path d="M53 63 Q60 68 67 63" fill="none" stroke="#553526" strokeWidth="2" strokeLinecap="round"/>
-            <path d="M48 73 Q60 79 72 73" fill="none" stroke="#6f422d" strokeWidth="4" strokeLinecap="round"/>
-            <path d="M60 107 L60 137" stroke="#d6b66d" strokeWidth="2"/>
-          </svg>
-          <span className="mt-1 text-xs text-amber-100">مرشد تراثي عُماني</span>
-        </div>
-        <span className="absolute bottom-2 rounded-full border border-amber-300/50 bg-emerald-950/90 px-3 py-1 text-xs text-amber-100">الراوي العُماني</span>
-      </div>
-      <div className="relative flex-1 rounded-2xl border border-amber-300/30 bg-[#fffaf0] p-4 text-sm leading-loose text-[#26382f] shadow-inner">
-        {intro && <p className="mb-2 font-display font-bold text-emerald-900">{intro}</p>}
-        <p>{text}</p>
-        <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-amber-900/15 pt-3">
-          <button className="rounded-full bg-emerald-900 px-4 py-2 text-xs font-semibold text-amber-50 shadow hover:bg-emerald-800" onClick={() => speak(text)}>🔊 استمع للحكاية</button>
-          <button className="rounded-full border border-emerald-900/25 px-4 py-2 text-xs text-emerald-950 hover:bg-emerald-900/5" onClick={stopSpeech}>⏹ إيقاف الصوت</button>
-          <span className="text-[11px] text-emerald-950/60">صوت عربي حسب الأصوات المتاحة على جهازك</span>
-        </div>
+    <div className="rounded-2xl border border-amber-500/30 bg-gradient-to-br from-[#fffaf0] to-amber-50 p-4 text-sm leading-loose text-[#26382f] shadow-inner sm:p-5">
+      {intro && <p className="mb-2 font-display font-bold text-emerald-900">{intro}</p>}
+      <p>{text}</p>
+      <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-amber-900/15 pt-3">
+        <button className="rounded-full bg-emerald-900 px-4 py-2 text-xs font-semibold text-amber-50 shadow hover:bg-emerald-800" onClick={() => speak(text)}>🔊 استمع للحكاية</button>
+        <button className="rounded-full border border-emerald-900/25 px-4 py-2 text-xs text-emerald-950 hover:bg-emerald-900/5" onClick={stopSpeech}>⏹ إيقاف الصوت</button>
+        <span className="text-[11px] text-emerald-950/60">استمعي للحكاية بالصوت العربي المتاح على جهازك</span>
       </div>
     </div>
   );
