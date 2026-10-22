@@ -1,22 +1,20 @@
-// Arabic text-to-speech helper. Cancels previous speech before speaking.
+// Arabic text-to-speech helper. Prefers a mature-sounding Arabic voice when the browser exposes one.
 export function speak(text: string, onEnd?: () => void) {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
   const s = window.speechSynthesis;
   s.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "ar-SA";
-  const arabicVoices = s.getVoices().filter((v) => v.lang?.toLowerCase().startsWith("ar"));
-  // Prefer commonly named male Arabic voices when the device provides them.
-  const maleVoice = arabicVoices.find((v) => /male|majid|majed|hamed|hamid|naayf|tarik|salim|maged|arabic.*(male|man)/i.test(v.name));
-  const voice = maleVoice ?? arabicVoices.find((v) => /ar-sa|saudi|arabic/i.test(v.lang + " " + v.name));
-  if (voice) u.voice = voice;
-  // A slightly lower pitch and measured pace suit the heritage narrator.
-  u.pitch = 0.82;
-  u.rate = 0.92;
-  if (onEnd) u.onend = onEnd;
-  s.speak(u);
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "ar-SA";
+  utterance.rate = 0.9;
+  utterance.pitch = 0.82;
+  const voices = s.getVoices().filter((voice) => voice.lang?.toLowerCase().startsWith("ar"));
+  // Browsers do not reliably expose voice gender; choose a likely male voice if its name identifies one.
+  const maleVoice = voices.find((voice) => /male|hamza|majed|tarik|naayf|hamed|abdul/i.test(voice.name));
+  const selectedVoice = maleVoice ?? voices.find((voice) => /saudi|ar-sa/i.test(voice.name + " " + voice.lang)) ?? voices[0];
+  if (selectedVoice) utterance.voice = selectedVoice;
+  if (onEnd) utterance.onend = onEnd;
+  s.speak(utterance);
 }
-
 export function stopSpeech() {
   if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel();
 }
