@@ -80,15 +80,18 @@ export function OmanGate({ reduced, onNext }: { reduced: boolean; onNext: () => 
           <button className="btn-gold" onClick={onNext}>{site.gateButton}</button>
         </div>
       )}
-      <div className="pointer-events-none absolute inset-x-0 top-3 flex flex-col items-center gap-1 px-4 text-center">
-        <OptionalImage src="/images/moe-logo.png" alt="شعار وزارة التعليم" className="h-16 w-20 object-contain md:h-20 md:w-24" />
-        <p className="font-display text-sm text-foreground">وزارة التعليم — سلطنة عُمان</p>
+      <div className="pointer-events-none absolute right-3 top-4 z-10 flex w-32 flex-col items-center gap-2 rounded-2xl border border-amber-200/30 bg-[#100d2b]/75 px-2 py-3 text-center shadow-xl backdrop-blur-sm sm:right-6 sm:top-6 sm:w-44 sm:px-4">
+        <OptionalImage src="/images/moe-logo.png" alt="شعار وزارة التعليم" className="h-14 w-16 object-contain sm:h-20 sm:w-24" />
+        <p className="font-display text-[11px] font-bold leading-relaxed text-amber-100 sm:text-sm">وزارة التعليم — سلطنة عُمان</p>
+        <div className="my-1 h-px w-full bg-amber-200/30" />
+        <p className="font-display text-[10px] leading-relaxed text-amber-50 sm:text-sm">الموسوعة العُمانية</p>
+        <p className="font-display text-[10px] leading-relaxed text-amber-50 sm:text-sm">فريق سراج عُمان</p>
+        <p className="font-display text-[10px] leading-relaxed text-amber-50 sm:text-sm">مدرسة زينب بنت الرسول</p>
+        <p className="font-display text-[10px] leading-relaxed text-amber-50 sm:text-sm">أ. أحلام الرواحية<br />أ. ثريا الرواحية</p>
       </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-4 px-4 text-center text-sm leading-relaxed text-foreground">
-        <p>الموسوعة العُمانية</p>
-        <p>فريق سراج عُمان</p>
-        <p>مدرسة زينب بنت الرسول</p>
-        <p>أ.أحلام الرواحية — أ.ثريا الرواحية</p>
+      <div className="pointer-events-none absolute left-1/2 top-[54%] z-10 -translate-x-1/2 -translate-y-1/2 text-center">
+        <h2 className="font-display text-4xl font-black tracking-[0.18em] text-[#4a2c0a] drop-shadow-[0_3px_0_rgba(255,255,255,0.45)] sm:text-6xl">ظُفَار</h2>
+        <div className="mx-auto mt-2 h-1 w-20 rounded-full bg-[#8b5e22]/70 sm:w-32" />
       </div>
     </section>
   );
