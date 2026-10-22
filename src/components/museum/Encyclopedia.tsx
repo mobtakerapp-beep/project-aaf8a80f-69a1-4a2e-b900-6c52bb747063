@@ -1,7 +1,8 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef, useState, useEffect } from "react";
 import * as THREE from "three";
-import { encyclopedia, PLACEHOLDER_NOTE } from "@/content";
+import { encyclopedia, SOURCE_LINE, site } from "@/content";
+import { OptionalImage } from "./OptionalImage";
 
 function Book({ open, onClick }: { open: boolean; onClick: () => void }) {
   const cover = useRef<THREE.Group>(null);
@@ -45,13 +46,7 @@ function Guide({ text }: { text: string }) {
   };
   return (
     <div className="flex items-end gap-3">
-      <svg viewBox="0 0 60 80" className="h-20 w-14 shrink-0" aria-hidden>
-        <circle cx="30" cy="20" r="13" fill="var(--color-foreground)" />
-        <path d="M17 16 Q30 2 43 16 L43 12 Q30 0 17 12Z" fill="var(--color-primary)" />
-        <circle cx="25" cy="21" r="2" fill="var(--color-background)" /><circle cx="35" cy="21" r="2" fill="var(--color-background)" />
-        <path d="M10 80 Q12 38 30 36 Q48 38 50 80Z" fill="var(--color-foreground)" />
-        <path d="M30 36 L30 80" stroke="var(--color-primary)" strokeWidth="2" />
-      </svg>
+      <OptionalImage src="/images/characters/grandfather.png" alt="الجد الراوي العُماني" className="h-32 w-24 shrink-0 object-contain" />
       <div className="relative rounded-2xl rounded-be-none border bg-muted p-3 text-sm leading-relaxed">
         <p>{text}</p>
         <button className="mt-2 text-xs text-primary underline" onClick={speak}>🔊 استمع للمرشد</button>
@@ -65,7 +60,8 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
   const [page, setPage] = useState(0);
   const [ready, setReady] = useState(false);
   useEffect(() => setReady(true), []);
-  const p = encyclopedia[page] ?? encyclopedia[0]!;
+  const p = encyclopedia[page] ?? encyclopedia[0];
+  if (!p) return null;
   return (
     <section className="flex h-full w-full flex-col overflow-y-auto" aria-label="الموسوعة العُمانية الذكية">
       <div className={`relative w-full shrink-0 transition-all duration-700 ${open ? "h-40" : "h-[60vh]"}`}>
@@ -95,7 +91,6 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
           </div>
           <article role="tabpanel" className="rounded-2xl border bg-card p-5 glow-gold">
             <h3 className="font-display text-2xl text-primary">{p.title}</h3>
-            <p className="mt-1 text-xs text-accent">{PLACEHOLDER_NOTE}</p>
             <p className="mt-3 leading-loose">{p.text}</p>
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               {p.image ? <img src={p.image} alt={p.imageCaption} className="aspect-video w-full rounded-xl object-cover" /> : (
@@ -103,10 +98,10 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
               )}
               <div className="flex flex-col justify-center gap-2 rounded-xl border bg-muted p-3">
                 <span className="text-sm text-muted-foreground">🎧 التسجيل الصوتي للصفحة</span>
-                {p.audio ? <audio controls src={p.audio} className="w-full" /> : <span className="text-xs">مكان ملف صوتي (يُضاف في content.ts)</span>}
+                {p.audio ? <audio controls src={p.audio} className="w-full" /> : <span className="text-xs">غير متوفر حاليًا</span>}
               </div>
             </div>
-            <div className="mt-5"><Guide text={p.guide} /></div>
+            <div className="mt-5"><Guide text={site.narratorGreeting} /></div>
           </article>
           <div className="mt-6 flex justify-between">
             <button className="btn-ghost" disabled={page === 0} onClick={() => setPage(page - 1)}>→ السابقة</button>
@@ -116,6 +111,7 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
           </div>
         </div>
       )}
+      <p className="mx-auto px-4 pb-4 text-center text-xs text-muted-foreground">{SOURCE_LINE}</p>
     </section>
   );
 }

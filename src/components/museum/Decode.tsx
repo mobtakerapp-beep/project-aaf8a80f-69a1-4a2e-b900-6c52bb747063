@@ -1,12 +1,16 @@
 import { useState } from "react";
-import { locks, QUIZ_NOTE, site } from "@/content";
+import { locks, SOURCE_LINE, site } from "@/content";
+import { OptionalImage } from "./OptionalImage";
+import { shuffleLock } from "./quiz";
 
 export function Decode({ onNext }: { onNext: () => void }) {
+  const [questions] = useState(() => locks.map((lock) => shuffleLock(lock)));
   const [opened, setOpened] = useState<boolean[]>(locks.map(() => false));
   const [active, setActive] = useState(0);
   const [shake, setShake] = useState(false);
   const all = opened.every(Boolean);
-  const lock = locks[active] ?? locks[0]!;
+  const lock = questions[active] ?? questions[0];
+  if (!lock) return null;
 
   const answer = (i: number) => {
     if (i === lock.answer) {
@@ -18,7 +22,6 @@ export function Decode({ onNext }: { onNext: () => void }) {
   return (
     <section className="mx-auto flex h-full w-full max-w-3xl flex-col items-center overflow-y-auto px-4 py-8 text-center" aria-label="فك شيفرة التراث">
       <h2 className="font-display text-3xl text-glow">فكّ شيفرة التراث</h2>
-      <p className="mt-1 text-xs text-accent">{QUIZ_NOTE}</p>
       <div className="mt-8 flex gap-4">
         {locks.map((l, i) => (
           <button key={l.letter} onClick={() => !opened[i] && setActive(i)} aria-label={`القفل ${l.letter}${opened[i] ? " مفتوح" : ""}`}
@@ -34,8 +37,12 @@ export function Decode({ onNext }: { onNext: () => void }) {
       {!all ? (
         <div key={active} className={`mt-6 w-full rounded-2xl border bg-card p-5 ${shake ? "animate-shake" : ""}`} onAnimationEnd={() => setShake(false)}>
           <p className="font-display text-lg">القفل «{lock.letter}»: {lock.question}</p>
+          <div className="flex justify-center gap-5">
+            <OptionalImage src="/images/characters/girl.png" alt="فتاة عُمانية" className="h-28 w-24 object-contain md:h-36 md:w-28" />
+            <OptionalImage src="/images/characters/boy.png" alt="فتى عُماني" className="h-28 w-24 object-contain md:h-36 md:w-28" />
+          </div>
           <div className="mt-4 grid gap-3 md:grid-cols-3">
-            {lock.options.map((o, i) => <button key={o} className="btn-ghost justify-center py-3 text-base" onClick={() => answer(i)}>{o}</button>)}
+            {lock.options.map((o, i) => <button key={o} className="btn-ghost justify-center whitespace-normal py-3 text-base" onClick={() => answer(i)}>{o}</button>)}
           </div>
           {shake && <p className="mt-3 text-sm text-accent" role="alert">إجابة غير صحيحة… حاول مرة أخرى</p>}
         </div>
@@ -45,6 +52,7 @@ export function Decode({ onNext }: { onNext: () => void }) {
           <button className="btn-gold mt-6" onClick={onNext}>استلم وسامك</button>
         </div>
       )}
+      <p className="mt-6 text-xs text-muted-foreground">{SOURCE_LINE}</p>
     </section>
   );
 }
