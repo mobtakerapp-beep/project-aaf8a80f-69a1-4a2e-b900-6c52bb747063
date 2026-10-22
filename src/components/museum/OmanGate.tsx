@@ -90,8 +90,7 @@ export function OmanGate({ reduced, onNext }: { reduced: boolean; onNext: () => 
         <p className="font-display text-[10px] leading-relaxed text-amber-50 sm:text-sm">أ. أحلام الرواحية<br />أ. ثريا الرواحية</p>
       </div>
       <div className="pointer-events-none absolute left-1/2 top-[54%] z-10 -translate-x-1/2 -translate-y-1/2 text-center">
-        <h2 className="font-display text-3xl font-black tracking-[0.18em] text-[#4a2c0a] drop-shadow-[0_3px_0_rgba(255,255,255,0.45)] sm:text-5xl">ظُفَار</h2>
-        <div className="mx-auto mt-2 h-1 w-20 rounded-full bg-[#8b5e22]/70 sm:w-32" />
+
       </div>
     </section>
   );
