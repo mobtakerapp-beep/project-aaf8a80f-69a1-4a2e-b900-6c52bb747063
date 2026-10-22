@@ -81,7 +81,7 @@ export function OmanGate({ reduced, onNext }: { reduced: boolean; onNext: () => 
         </div>
       )}
       <div className="pointer-events-none absolute right-2 top-3 z-10 flex w-24 flex-col items-center gap-1 rounded-xl border border-amber-200/30 bg-[#100d2b]/80 px-1.5 py-2 text-center shadow-xl backdrop-blur-sm sm:right-4 sm:top-4 sm:w-32 sm:gap-1.5 sm:px-2 sm:py-2.5">
-        <OptionalImage src="/images/moe-logo.png" alt="شعار وزارة التعليم" className="h-10 w-12 object-contain sm:h-14 sm:w-16" />
+        <OptionalImage src="/images/تصميم بدون عنوان_20261022_160320_0000.png" alt="شعار وزارة التعليم" className="h-10 w-12 object-contain sm:h-14 sm:w-16" />
         <p className="font-display text-[9px] font-bold leading-snug text-amber-100 sm:text-[11px]">وزارة التعليم — سلطنة عُمان</p>
         <div className="my-0.5 h-px w-full bg-amber-200/30" />
         <p className="font-display text-[8px] leading-snug text-amber-50 sm:text-[10px]">الموسوعة العُمانية</p>
