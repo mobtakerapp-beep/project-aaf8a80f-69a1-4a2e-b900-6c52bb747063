@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import * as THREE from "three";
 import { encyclopedia, SOURCE_LINE, site } from "@/content";
 import { OptionalImage } from "./OptionalImage";
+import { speak, stopSpeech } from "./speech";
 
 function Book({ open, onClick }: { open: boolean; onClick: () => void }) {
   const cover = useRef<THREE.Group>(null);
@@ -107,7 +108,7 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
                 {p.audio ? <audio controls src={p.audio} className="w-full" /> : <span className="text-xs">غير متوفر حاليًا</span>}
               </div>
             </div>
-            <div className="mt-5"><Guide text={site.narratorGreeting} /></div>
+            <div className="mt-5"><Guide text={pageText} intro={page === 0 ? site.narratorGreeting : undefined} /></div>
           </article>
           <div className="mt-6 flex justify-between">
             <button className="btn-ghost" disabled={page === 0} onClick={() => setPage(page - 1)}>→ السابقة</button>

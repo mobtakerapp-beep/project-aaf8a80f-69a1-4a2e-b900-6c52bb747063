@@ -2,6 +2,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { hotspots, site, type Hotspot } from "@/content";
+import { speak, stopSpeech } from "./speech";
 
 function drawPlaceholder() {
   const c = document.createElement("canvas");
@@ -85,6 +86,8 @@ export function Panorama({ onNext }: { onNext: () => void }) {
     new THREE.TextureLoader().load(site.panoramaPath, (t) => { t.colorSpace = THREE.SRGBColorSpace; setTex(t); }, undefined, () => setTex(drawPlaceholder()));
   }, []);
 
+  useEffect(() => () => stopSpeech(), []);
+
   useEffect(() => {
     if (!gyro) return;
     const f = (e: DeviceOrientationEvent) => { if (e.alpha == null || e.beta == null) return; view.current.lon = -e.alpha; view.current.lat = e.beta - 90; };
@@ -104,7 +107,7 @@ export function Panorama({ onNext }: { onNext: () => void }) {
     new THREE.TextureLoader().load(url, (t) => { t.colorSpace = THREE.SRGBColorSpace; setTex(t); });
   };
 
-  const open = (h: Hotspot) => { setCard(h); setSeen((s) => new Set(s).add(h.id)); };
+  const open = (h: Hotspot) => { setCard(h); speak(h.text); setSeen((s) => new Set(s).add(h.id)); };
 
   return (
     <section className="relative h-full w-full touch-none select-none" aria-label="مشهد الهبوت 360"
@@ -128,16 +131,17 @@ export function Panorama({ onNext }: { onNext: () => void }) {
           </button>
         ))}
       </div>
-      <p className="pointer-events-none absolute inset-x-0 bottom-24 text-center text-sm text-muted-foreground">اسحب للتجوّل · اضغط على النقاط المضيئة</p>
+      <p className="pointer-events-none absolute inset-x-0 bottom-28 text-center text-sm text-muted-foreground">اسحب للتجوّل · اضغط على النقاط المضيئة</p>
       {card && (
-        <div role="dialog" aria-label={card.title} className="absolute inset-x-4 bottom-24 mx-auto max-w-md rounded-2xl border bg-card p-5 glow-gold animate-fade-up" onPointerDown={(e) => e.stopPropagation()}>
+        <div role="dialog" aria-label={card.title} className="absolute inset-x-4 bottom-28 mx-auto max-w-md rounded-2xl border bg-card p-5 glow-gold animate-fade-up" onPointerDown={(e) => e.stopPropagation()}>
           <h3 className="font-display text-xl text-primary">{card.title}</h3>
+          <button className="mt-1 text-xs text-primary underline" onClick={() => speak(card.text)}>🔊 استمع</button>
           <p className="mt-2 leading-loose">{card.text}</p>
-          <button className="btn-ghost mt-3" onClick={() => setCard(null)} autoFocus>إغلاق</button>
+          <button className="btn-ghost mt-3" onClick={() => { stopSpeech(); setCard(null); }} autoFocus>إغلاق</button>
         </div>
       )}
-      <div className="absolute inset-x-0 bottom-6 flex justify-center" onPointerDown={(e) => e.stopPropagation()}>
-        <button className="btn-gold" onClick={onNext}>{seen.size >= hotspots.length ? "إلى الأقفال الرقمية" : `اكتشف النقاط (${seen.size}/${hotspots.length}) أو تابع`}</button>
+      <div className="absolute inset-x-0 bottom-0 z-10 flex justify-center bg-gradient-to-t from-background/90 to-transparent px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-6" onPointerDown={(e) => e.stopPropagation()}>
+        <button className="btn-gold w-full max-w-md justify-center py-4 text-lg font-bold glow-gold animate-pulse-glow md:text-xl" onClick={() => { stopSpeech(); onNext(); }}>🔐 {seen.size >= hotspots.length ? "إلى الأقفال الرقمية" : `اكتشف النقاط (${seen.size}/${hotspots.length}) أو تابع`}</button>
       </div>
     </section>
   );

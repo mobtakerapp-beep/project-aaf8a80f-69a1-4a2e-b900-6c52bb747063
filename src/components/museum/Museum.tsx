@@ -45,6 +45,8 @@ function AmbientToggle() {
 
 export function Museum() {
   const [step, setStep] = useState(0);
+  const [maxStep, setMaxStep] = useState(0);
+  useEffect(() => setMaxStep((m) => Math.max(m, step)), [step]);
   const reduced = useReducedMotion();
   const next = () => setStep((s) => Math.min(5, s + 1));
   return (
@@ -55,8 +57,11 @@ export function Museum() {
           <ol className="flex flex-1 items-center gap-1 md:max-w-lg" aria-label="مراحل الرحلة">
             {steps.map((s, i) => (
               <li key={s} className="flex-1" aria-current={i + 1 === step ? "step" : undefined}>
-                <div className={`h-1.5 rounded-full transition-colors duration-500 ${i + 1 <= step ? "bg-primary" : "bg-muted"}`} />
-                <span className={`mt-1 block text-center text-[10px] md:text-xs ${i + 1 === step ? "text-primary" : "text-muted-foreground"}`}>{s}</span>
+                <button type="button" disabled={i + 1 > maxStep} onClick={() => setStep(i + 1)} aria-label={`انتقل إلى: ${s}`}
+                  className="block w-full py-1 disabled:cursor-not-allowed disabled:opacity-50">
+                  <div className={`h-1.5 rounded-full transition-colors duration-500 ${i + 1 <= step ? "bg-primary" : "bg-muted"}`} />
+                  <span className={`mt-1 block text-center text-[10px] md:text-xs ${i + 1 === step ? "text-primary" : "text-muted-foreground"}`}>{s}</span>
+                </button>
               </li>
             ))}
           </ol>
