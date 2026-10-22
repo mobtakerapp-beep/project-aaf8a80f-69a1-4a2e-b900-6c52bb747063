@@ -2,6 +2,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useMemo, useRef, useState, useEffect } from "react";
 import * as THREE from "three";
 import { site } from "@/content";
+import { OptionalImage } from "./OptionalImage";
 
 const OMAN: [number, number][] = [
   [56.3, 24.9], [56.9, 24.1], [57.6, 23.7], [58.7, 23.6], [59.4, 22.6], [59.8, 22.4], [58.5, 20.4],
@@ -70,18 +71,25 @@ export function OmanGate({ reduced, onNext }: { reduced: boolean; onNext: () => 
           <Map reduced={reduced} onDone={() => setArrived(true)} />
         </Canvas>
       )}
-      <div className="pointer-events-none absolute inset-x-0 top-6 text-center">
-        <p className="font-display text-sm text-muted-foreground">البوابة الزمنية الرقمية · سلطنة عُمان</p>
-      </div>
       {arrived && (
         <img src={site.gateCover} alt="بوابة ظفار وجبالها الخضراء في موسم الخريف" className="absolute inset-0 h-full w-full object-cover opacity-60 animate-fade-up" />
       )}
       {arrived && (
-        <div className="absolute inset-x-0 bottom-10 flex flex-col items-center gap-5 px-6 text-center animate-fade-up">
+        <div className="absolute inset-x-0 bottom-36 flex flex-col items-center gap-5 px-6 text-center animate-fade-up">
           <h2 className="font-display text-2xl leading-relaxed text-glow md:text-4xl">{site.gateText}</h2>
           <button className="btn-gold" onClick={onNext}>{site.gateButton}</button>
         </div>
       )}
+      <div className="pointer-events-none absolute inset-x-0 top-3 flex flex-col items-center gap-1 px-4 text-center">
+        <OptionalImage src="/images/moe-logo.png" alt="شعار وزارة التعليم" className="h-16 w-20 object-contain md:h-20 md:w-24" />
+        <p className="font-display text-sm text-foreground">وزارة التعليم — سلطنة عُمان</p>
+      </div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-4 px-4 text-center text-sm leading-relaxed text-foreground">
+        <p>الموسوعة العُمانية</p>
+        <p>فريق سراج عُمان</p>
+        <p>مدرسة زينب بنت الرسول</p>
+        <p>أ.أحلام الرواحية — أ.ثريا الرواحية</p>
+      </div>
     </section>
   );
 }

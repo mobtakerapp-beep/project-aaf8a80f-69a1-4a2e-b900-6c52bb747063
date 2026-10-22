@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { site } from "@/content";
 import { makeTextTexture } from "./hooks";
+import { OptionalImage } from "./OptionalImage";
 
 function drawMedalFace(g: CanvasRenderingContext2D, w: number, cx = w / 2, cy = w / 2, r = w / 2) {
   const grad = g.createRadialGradient(cx - r * 0.3, cy - r * 0.3, r * 0.1, cx, cy, r);
@@ -37,7 +38,8 @@ async function drawCertificate(name: string) {
   await Promise.all([document.fonts.load("60px 'Reem Kufi'"), document.fonts.load("40px 'Noto Naskh Arabic'")]).catch(() => {});
   const W = 1600, H = 1131;
   const c = document.createElement("canvas"); c.width = W; c.height = H;
-  const g = c.getContext("2d")!;
+  const g = c.getContext("2d");
+  if (!g) throw new Error("تعذّر إنشاء الشهادة");
   const bg = g.createRadialGradient(W / 2, H / 2, 100, W / 2, H / 2, W * 0.7);
   bg.addColorStop(0, "#221d4a"); bg.addColorStop(1, "#171433");
   g.fillStyle = bg; g.fillRect(0, 0, W, H);
@@ -51,6 +53,7 @@ async function drawCertificate(name: string) {
   g.fillText("لنجاحه في فكّ «شيفرة الهبوت» واستكشاف ذاكرة ظفار الرقمية،", W / 2, 520);
   g.fillText(`ونيله وسام «${site.medalTitle}»`, W / 2, 575);
   drawMedalFace(g, 0, W / 2, 770, 140);
+  g.fillStyle = "#f1e4c8"; g.font = "30px 'Noto Naskh Arabic'"; g.fillText(site.certificateCredit, W / 2, 940);
   g.fillStyle = "#4c9a68"; g.font = "30px 'Noto Naskh Arabic'"; g.fillText(site.closing, W / 2, 990);
   g.fillStyle = "#f1e4c8"; g.font = "26px 'Reem Kufi'"; g.fillText(site.title + " · " + new Date().toLocaleDateString("ar-OM"), W / 2, 1040);
   return c.toDataURL("image/png");
@@ -71,6 +74,7 @@ export function Certificate({ onRestart }: { onRestart: () => void }) {
         {ready && <img src={site.medalImage} alt={`وسام ${site.medalTitle}`} className="mx-auto h-full w-auto object-contain drop-shadow-2xl animate-fade-up" />}
       </div>
       <h2 className="font-display text-3xl text-primary text-glow">{site.medalTitle}</h2>
+      <OptionalImage src="/images/characters/grandmother.png" alt="الجدة العُمانية" className="mt-3 h-36 w-28 object-contain" />
       <form className="mt-5 flex w-full max-w-md flex-col gap-3" onSubmit={(e) => { e.preventDefault(); if (name.trim()) make(); }}>
         <label htmlFor="name" className="text-sm text-muted-foreground">اكتب اسمك كما تريده في الشهادة</label>
         <input id="name" value={name} onChange={(e) => setName(e.target.value)} maxLength={40}
