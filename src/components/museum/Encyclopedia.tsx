@@ -103,10 +103,7 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
               {p.image ? <img src={p.image} alt={p.imageCaption} className="aspect-video w-full rounded-xl object-cover" /> : (
                 <div className="flex aspect-video items-center justify-center rounded-xl border-2 border-dashed text-sm text-muted-foreground">🖼️ {p.imageCaption}</div>
               )}
-              <div className="flex flex-col justify-center gap-2 rounded-xl border bg-muted p-3">
-                <span className="text-sm text-muted-foreground">🎧 التسجيل الصوتي للصفحة</span>
-                {p.audio ? <audio controls src={p.audio} className="w-full" /> : <span className="text-xs">غير متوفر حاليًا</span>}
-              </div>
+
             </div>
             <div className="mt-5"><Guide text={pageText} intro={page === 0 ? site.narratorGreeting : undefined} /></div>
           </article>
