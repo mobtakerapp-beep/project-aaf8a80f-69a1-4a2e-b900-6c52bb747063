@@ -1,0 +1,97 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-void: var(--void);
+  --font-display: "Reem Kufi", serif;
+  --font-body: "Noto Naskh Arabic", serif;
+}
+
+:root {
+  --radius: 0.75rem;
+  --void: oklch(0.08 0.02 280);
+  --background: oklch(0.2 0.07 282); /* #171433 */
+  --foreground: oklch(0.93 0.04 85); /* sand #f1e4c8 */
+  --card: oklch(0.25 0.08 283); /* #221d4a */
+  --card-foreground: oklch(0.93 0.04 85);
+  --popover: oklch(0.25 0.08 283);
+  --popover-foreground: oklch(0.93 0.04 85);
+  --primary: oklch(0.78 0.13 80); /* gold #e3b04b */
+  --primary-foreground: oklch(0.2 0.07 282);
+  --secondary: oklch(0.6 0.1 150); /* khareef green */
+  --secondary-foreground: oklch(0.97 0.02 85);
+  --muted: oklch(0.3 0.07 283);
+  --muted-foreground: oklch(0.78 0.04 85);
+  --accent: oklch(0.58 0.14 38); /* rust */
+  --accent-foreground: oklch(0.97 0.02 85);
+  --destructive: oklch(0.58 0.14 38);
+  --destructive-foreground: oklch(0.97 0.02 85);
+  --border: oklch(0.78 0.13 80 / 25%);
+  --input: oklch(0.78 0.13 80 / 30%);
+  --ring: oklch(0.78 0.13 80);
+  --glow-gold: 0 0 24px oklch(0.78 0.13 80 / 55%), 0 0 60px oklch(0.78 0.13 80 / 25%);
+  --gradient-night: radial-gradient(ellipse at top, var(--card), var(--background) 60%, var(--void));
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html, body { background: var(--color-background); color: var(--color-foreground); font-family: var(--font-body); }
+  h1, h2, h3, .font-display { font-family: var(--font-display); }
+  :focus-visible { outline: 3px solid var(--ring); outline-offset: 3px; border-radius: 6px; }
+}
+
+@utility bg-night { background: var(--gradient-night); }
+@utility glow-gold { box-shadow: var(--glow-gold); }
+@utility text-glow { text-shadow: 0 0 18px oklch(0.78 0.13 80 / 60%); }
+
+@utility btn-gold {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  padding: .85rem 2rem; border-radius: 999px; font-family: var(--font-display); font-size: 1.15rem;
+  background: var(--primary); color: var(--primary-foreground); box-shadow: var(--glow-gold);
+  transition: transform .2s, filter .2s;
+  &:hover { transform: translateY(-2px); filter: brightness(1.08); }
+  &:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+}
+@utility btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+  padding: .55rem 1.1rem; border-radius: 999px; border: 1px solid var(--border);
+  background: oklch(0.25 0.08 283 / 70%); color: var(--foreground); font-size: .95rem; backdrop-filter: blur(6px);
+  &:hover { border-color: var(--primary); color: var(--primary); }
+}
+
+@keyframes fade-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes shake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-10px); } 40%,80% { transform: translateX(10px); } }
+@keyframes pulse-glow { 0%,100% { box-shadow: 0 0 10px oklch(0.78 0.13 80 / 50%); } 50% { box-shadow: 0 0 30px oklch(0.78 0.13 80 / 90%); } }
+@utility animate-fade-up { animation: fade-up .9s ease both; }
+@utility animate-shake { animation: shake .45s ease; }
+@utility animate-pulse-glow { animation: pulse-glow 2.2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

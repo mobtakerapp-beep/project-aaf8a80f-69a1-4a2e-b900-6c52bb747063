@@ -1,0 +1,21 @@
+import { useEffect, useState } from "react";
+
+export function useReducedMotion() {
+  const [r, setR] = useState(false);
+  useEffect(() => {
+    const m = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setR(m.matches);
+    const f = () => setR(m.matches);
+    m.addEventListener("change", f);
+    return () => m.removeEventListener("change", f);
+  }, []);
+  return r;
+}
+
+export function makeTextTexture(draw: (ctx: CanvasRenderingContext2D, w: number, h: number) => void, w = 512, h = 512) {
+  const c = document.createElement("canvas");
+  c.width = w;
+  c.height = h;
+  draw(c.getContext("2d")!, w, h);
+  return c;
+}
