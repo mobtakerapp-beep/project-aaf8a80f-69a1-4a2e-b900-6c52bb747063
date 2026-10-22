@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { speak, stopSpeech } from "./speech";
 import { locks, SOURCE_LINE, site } from "@/content";
 import { OptionalImage } from "./OptionalImage";
 import { shuffleLock } from "./quiz";
@@ -10,6 +11,8 @@ export function Decode({ onNext }: { onNext: () => void }) {
   const [shake, setShake] = useState(false);
   const all = opened.every(Boolean);
   const lock = questions[active] ?? questions[0];
+  useEffect(() => { if (!all && lock) speak(lock.question); }, [active, all, lock]);
+  useEffect(() => () => stopSpeech(), []);
   if (!lock) return null;
 
   const answer = (i: number) => {
@@ -37,6 +40,7 @@ export function Decode({ onNext }: { onNext: () => void }) {
       {!all ? (
         <div key={active} className={`mt-6 w-full rounded-2xl border bg-card p-5 ${shake ? "animate-shake" : ""}`} onAnimationEnd={() => setShake(false)}>
           <p className="font-display text-lg">القفل «{lock.letter}»: {lock.question}</p>
+          <button className="mt-1 text-xs text-primary underline" onClick={() => speak(lock.question)}>🔊 أعد الاستماع</button>
           <div className="flex justify-center gap-5">
             <OptionalImage src="/images/characters/girl.png" alt="فتاة عُمانية" className="h-28 w-24 object-contain md:h-36 md:w-28" />
             <OptionalImage src="/images/characters/boy.png" alt="فتى عُماني" className="h-28 w-24 object-contain md:h-36 md:w-28" />

@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import * as THREE from "three";
 import { encyclopedia, SOURCE_LINE, site } from "@/content";
 import { OptionalImage } from "./OptionalImage";
+import { speak, stopSpeech } from "./speech";
 
 function Book({ open, onClick }: { open: boolean; onClick: () => void }) {
   const cover = useRef<THREE.Group>(null);
@@ -36,20 +37,17 @@ function Book({ open, onClick }: { open: boolean; onClick: () => void }) {
   );
 }
 
-function Guide({ text }: { text: string }) {
-  const speak = () => {
-    if (!("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "ar-SA";
-    window.speechSynthesis.speak(u);
-  };
+function Guide({ text, intro }: { text: string; intro?: string }) {
   return (
     <div className="flex items-end gap-3">
       <OptionalImage src="/images/characters/grandfather.png" alt="الجد الراوي العُماني" className="h-32 w-24 shrink-0 object-contain" />
       <div className="relative rounded-2xl rounded-be-none border bg-muted p-3 text-sm leading-relaxed">
+        {intro && <p className="mb-2 font-display text-primary">{intro}</p>}
         <p>{text}</p>
-        <button className="mt-2 text-xs text-primary underline" onClick={speak}>🔊 استمع للمرشد</button>
+        <div className="mt-2 flex gap-3">
+          <button className="text-xs text-primary underline" onClick={() => speak(text)}>🔊 استمع</button>
+          <button className="text-xs text-muted-foreground underline" onClick={stopSpeech}>⏸ إيقاف</button>
+        </div>
       </div>
     </div>
   );
@@ -59,9 +57,18 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [ready, setReady] = useState(false);
+  const greeted = useRef(false);
   useEffect(() => setReady(true), []);
+  useEffect(() => () => stopSpeech(), []);
   const p = encyclopedia[page] ?? encyclopedia[0];
+  const pageText = p ? p.guide || p.text : "";
+  useEffect(() => {
+    if (!open || !pageText) return;
+    if (!greeted.current) { greeted.current = true; speak(site.narratorGreeting, () => speak(pageText)); }
+    else speak(pageText);
+  }, [open, page, pageText]);
   if (!p) return null;
+
   return (
     <section className="flex h-full w-full flex-col overflow-y-auto" aria-label="الموسوعة العُمانية الذكية">
       <div className={`relative w-full shrink-0 transition-all duration-700 ${open ? "h-40" : "h-[60vh]"}`}>
@@ -101,7 +108,7 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
                 {p.audio ? <audio controls src={p.audio} className="w-full" /> : <span className="text-xs">غير متوفر حاليًا</span>}
               </div>
             </div>
-            <div className="mt-5"><Guide text={site.narratorGreeting} /></div>
+            <div className="mt-5"><Guide text={pageText} intro={page === 0 ? site.narratorGreeting : undefined} /></div>
           </article>
           <div className="mt-6 flex justify-between">
             <button className="btn-ghost" disabled={page === 0} onClick={() => setPage(page - 1)}>→ السابقة</button>
