@@ -65,7 +65,7 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
   const [page, setPage] = useState(0);
   const [ready, setReady] = useState(false);
   useEffect(() => setReady(true), []);
-  const p = encyclopedia[page];
+  const p = encyclopedia[page] ?? encyclopedia[0]!;
   return (
     <section className="flex h-full w-full flex-col overflow-y-auto" aria-label="الموسوعة العُمانية الذكية">
       <div className={`relative w-full shrink-0 transition-all duration-700 ${open ? "h-40" : "h-[60vh]"}`}>

@@ -74,6 +74,9 @@ export function OmanGate({ reduced, onNext }: { reduced: boolean; onNext: () => 
         <p className="font-display text-sm text-muted-foreground">البوابة الزمنية الرقمية · سلطنة عُمان</p>
       </div>
       {arrived && (
+        <img src={site.gateCover} alt="بوابة ظفار وجبالها الخضراء في موسم الخريف" className="absolute inset-0 h-full w-full object-cover opacity-60 animate-fade-up" />
+      )}
+      {arrived && (
         <div className="absolute inset-x-0 bottom-10 flex flex-col items-center gap-5 px-6 text-center animate-fade-up">
           <h2 className="font-display text-2xl leading-relaxed text-glow md:text-4xl">{site.gateText}</h2>
           <button className="btn-gold" onClick={onNext}>{site.gateButton}</button>

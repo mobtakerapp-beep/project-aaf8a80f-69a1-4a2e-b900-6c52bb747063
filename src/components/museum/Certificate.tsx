@@ -68,14 +68,7 @@ export function Certificate({ onRestart }: { onRestart: () => void }) {
   return (
     <section className="mx-auto flex h-full w-full max-w-3xl flex-col items-center overflow-y-auto px-4 py-6 text-center" aria-label="الوسام والشهادة">
       <div className="h-56 w-full md:h-72">
-        {ready && (
-          <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }} dpr={[1, 2]}>
-            <ambientLight intensity={0.8} />
-            <directionalLight position={[3, 3, 5]} intensity={2} />
-            <pointLight position={[-3, -2, 3]} color="#e3b04b" intensity={8} />
-            <Medal />
-          </Canvas>
-        )}
+        {ready && <img src={site.medalImage} alt={`وسام ${site.medalTitle}`} className="mx-auto h-full w-auto object-contain drop-shadow-2xl animate-fade-up" />}
       </div>
       <h2 className="font-display text-3xl text-primary text-glow">{site.medalTitle}</h2>
       <form className="mt-5 flex w-full max-w-md flex-col gap-3" onSubmit={(e) => { e.preventDefault(); if (name.trim()) make(); }}>
