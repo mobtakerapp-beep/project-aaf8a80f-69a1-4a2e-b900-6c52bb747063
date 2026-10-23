@@ -89,6 +89,7 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
         {!open && (
           <div className="absolute inset-x-0 bottom-4 text-center">
             <h2 className="font-display text-2xl text-glow">الموسوعة العُمانية الذكية</h2>
+            <p className="mt-1 text-sm font-medium text-amber-300 drop-shadow" dir="rtl">ص ٣٧٣٩–٣٧٤٠</p>
             <button className="btn-gold mt-3 shadow-lg" onClick={() => setOpen(true)}>✦ افتح الكتاب واكتشف الحكاية ✦</button>
           </div>
         )}
