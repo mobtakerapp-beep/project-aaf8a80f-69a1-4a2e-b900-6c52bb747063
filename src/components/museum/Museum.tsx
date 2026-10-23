@@ -54,6 +54,7 @@ export function Museum() {
       {step > 0 && (
         <header className="z-20 flex items-center justify-between gap-3 border-b bg-card/80 px-3 py-2 backdrop-blur">
           <span className="hidden font-display text-sm text-primary md:block">{site.title}</span>
+          <span className="shrink-0 rounded-full border border-primary/40 px-2 py-1 text-[10px] font-medium text-primary md:text-xs whitespace-nowrap" aria-label="أرقام الصفحات">ص ٣٧٣٩–٣٧٤٠</span>
           <ol className="flex flex-1 items-center gap-1 md:max-w-lg" aria-label="مراحل الرحلة">
             {steps.map((s, i) => (
               <li key={s} className="flex-1" aria-current={i + 1 === step ? "step" : undefined}>
