@@ -96,6 +96,7 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
       </div>
       {open && (
         <div className="mx-auto w-full max-w-3xl flex-1 px-4 pb-8 animate-fade-up">
+          <div className="mb-3 text-center" dir="rtl"><p className="text-base font-bold text-foreground">الموسوعة العُمانية الذكية</p><p className="mt-1 text-sm font-semibold text-foreground">الصفحات: ٣٧٣٩–٣٧٤٠</p></div>
           <div role="tablist" className="mb-4 flex flex-wrap justify-center gap-2">
             {encyclopedia.map((e, i) => (
               <button key={e.tab} role="tab" aria-selected={i === page} onClick={() => setPage(i)}
