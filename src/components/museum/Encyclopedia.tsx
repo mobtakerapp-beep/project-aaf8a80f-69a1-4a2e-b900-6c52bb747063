@@ -113,10 +113,25 @@ export function Encyclopedia({ onNext }: { onNext: () => void }) {
               {p.image ? <img src={p.image} alt={p.imageCaption} className="aspect-video w-full rounded-xl object-cover" /> : (
                 <div className="flex aspect-video items-center justify-center rounded-xl border-2 border-dashed text-sm text-muted-foreground">🖼️ {p.imageCaption}</div>
               )}
-
             </div>
             <div className="mt-5"><Guide text={pageText} intro={page === 0 ? site.narratorGreeting : undefined} /></div>
           </article>
+
+          <section className="mt-6 overflow-hidden rounded-3xl border border-amber-500/30 bg-gradient-to-br from-[#171433] via-[#221d4a] to-[#064e3b] p-4 text-amber-50 shadow-xl sm:p-6" aria-label="فيلم الهبوت الظفاري">
+            <div className="mb-3 flex items-center gap-3">
+              <span className="flex h-12 w-12 items-center justify-center rounded-full border border-amber-300/50 bg-amber-300/10 text-2xl">▶</span>
+              <div>
+                <p className="font-display text-xl text-amber-300">فيلم الهبوت الظفاري</p>
+                <p className="mt-1 text-xs text-emerald-100/80">شاهد الحكاية السينمائية للتراث الظفاري</p>
+              </div>
+            </div>
+            <video controls playsInline preload="metadata" className="aspect-video w-full rounded-2xl border border-amber-300/20 bg-black" aria-label="فيديو الهبوت الظفاري">
+              <source src="https://raw.githubusercontent.com/mobtakerapp-beep/project-aaf8a80f-69a1-4a2e-b900-6c52bb747063/main/VID_20261023_005602_159_bsl.mp4" type="video/mp4" />
+              متصفحك لا يدعم تشغيل الفيديو.
+            </video>
+            <p className="mt-3 text-sm leading-loose text-emerald-50/90">شاهد المشاهد الفانتازية، وتأمل الزي العُماني والحركات التراثية، ثم تابع رحلتك لاستكشاف شيفرة الهبوت.</p>
+          </section>
+
           <div className="mt-6 flex justify-between">
             <button className="btn-ghost" disabled={page === 0} onClick={() => setPage(page - 1)}>→ السابقة</button>
             {page < encyclopedia.length - 1
