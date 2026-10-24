@@ -87,7 +87,7 @@ export function OmanGate({ reduced, onNext }: { reduced: boolean; onNext: () => 
         <p className="font-display text-[8px] leading-snug text-amber-50 sm:text-[10px]">الموسوعة العُمانية</p>
         <p className="font-display text-[10px] leading-relaxed text-amber-50 sm:text-sm">فريق سراج عُمان</p>
         <p className="font-display text-[10px] leading-relaxed text-amber-50 sm:text-sm">مدرسة زينب بنت الرسول</p>
-        <p className="font-display text-[10px] leading-relaxed text-amber-50 sm:text-sm">أ. أحلام الرواحية<br />أ. ثريا الرواحية</p>
+
       </div>
       <div className="pointer-events-none absolute left-1/2 top-[54%] z-10 -translate-x-1/2 -translate-y-1/2 text-center">
 
